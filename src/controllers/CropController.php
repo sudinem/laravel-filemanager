@@ -40,13 +40,14 @@ class CropController extends LfmController {
 
         // crop image
         $tmp_img = Image::make(public_path() . $image);
+        $new_file_name = uniqid().'.jpg';
+        $new_file = parent::getPath('directory') . $new_file_name;
         $tmp_img->crop($dataWidth, $dataHeight, $dataX, $dataY)
-            ->save(public_path() . $image);
+            ->save($new_file);
 
         // make new thumbnail
-        $thumb_img = Image::make(public_path() . $image);
+        $thumb_img = Image::make($new_file);
         $thumb_img->fit(200, 200)
-            ->save(parent::getPath('thumb') . parent::getFileName($image)['short']);
+            ->save(parent::getPath('thumb') . $new_file_name);
     }
-
 }
